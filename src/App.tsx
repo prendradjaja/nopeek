@@ -61,6 +61,7 @@ function App() {
       <textarea
         ref={textareaRef}
         className="editor-textarea"
+        autoFocus
         value={text}
         onChange={(e) => setText(e.target.value)}
         onScroll={handleScroll}
