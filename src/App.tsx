@@ -53,6 +53,31 @@ function App() {
         textarea.selectionStart = textarea.selectionEnd = start + 1
       })
     }
+
+    if (e.ctrlKey && e.key === 'w') {
+      e.preventDefault()
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      const end = textarea.selectionStart
+      let start = end
+
+      // Skip whitespace backwards
+      while (start > 0 && /\s/.test(text[start - 1])) {
+        start--
+      }
+      // Skip non-whitespace backwards
+      while (start > 0 && !/\s/.test(text[start - 1])) {
+        start--
+      }
+
+      const newText = text.slice(0, start) + text.slice(end)
+      setText(newText)
+
+      requestAnimationFrame(() => {
+        textarea.selectionStart = textarea.selectionEnd = start
+      })
+    }
   }
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
