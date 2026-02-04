@@ -53,7 +53,7 @@ function App() {
       >
         {lines.map((line, i) => (
           <span key={i} className="line">
-            {line || '\u00A0'}
+            {line}
             {i < lines.length - 1 && '\n'}
           </span>
         ))}
