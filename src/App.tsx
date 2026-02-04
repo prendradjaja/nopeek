@@ -57,7 +57,7 @@ function App() {
         style={{ visibility: showOverlay ? 'visible' : 'hidden' }}
       >
         {lines.map((line, i) => (
-          <span key={i} className="line">
+          <span key={i} className={i === lines.length - 1 ? 'line last-line' : 'line'}>
             {line}
             {i < lines.length - 1 && '\n'}
           </span>

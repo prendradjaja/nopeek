@@ -42,6 +42,11 @@ body {
   background-color: hsl(0deg 0% 80%);
 }
 
+.editor-overlay .last-line {
+  background-color: transparent;
+  color: black;
+}
+
 .editor-textarea {
   position: relative;
   background: transparent;
