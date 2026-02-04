@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 const DOUBLE_TAP_MS = 300
 
 function App() {
-  const [text, setText] = useState('')
+  const [text, setText] = useLocalStorage('editor-text', '')
   const [overlayVisible, setOverlayVisible] = useState(true)
   const [holdingBacktick, setHoldingBacktick] = useState(false)
   const lastBacktickTime = useRef(0)
