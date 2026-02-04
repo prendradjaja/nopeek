@@ -66,6 +66,7 @@ function App() {
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
+        style={{ color: showOverlay ? 'transparent' : 'inherit' }}
       />
     </div>
   )
