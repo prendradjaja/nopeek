@@ -38,6 +38,21 @@ function App() {
         }
       }
     }
+
+    if (e.ctrlKey && e.key === 'm') {
+      e.preventDefault()
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      const newText = text.slice(0, start) + '\n' + text.slice(end)
+      setText(newText)
+
+      requestAnimationFrame(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + 1
+      })
+    }
   }
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
