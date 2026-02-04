@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 const DOUBLE_TAP_MS = 300
 
@@ -11,12 +11,16 @@ function App() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
 
-  const handleScroll = () => {
+  const syncScroll = () => {
     if (textareaRef.current && overlayRef.current) {
       overlayRef.current.scrollTop = textareaRef.current.scrollTop
       overlayRef.current.scrollLeft = textareaRef.current.scrollLeft
     }
   }
+
+  useEffect(() => {
+    syncScroll()
+  }, [text])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === '`') {
@@ -64,7 +68,7 @@ function App() {
         autoFocus
         value={text}
         onChange={(e) => setText(e.target.value)}
-        onScroll={handleScroll}
+        onScroll={syncScroll}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
         style={{ color: showOverlay ? 'transparent' : 'inherit', caretColor: 'black' }}
