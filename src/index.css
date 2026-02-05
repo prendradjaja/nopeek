@@ -23,7 +23,7 @@ body {
 .editor-textarea,
 .editor-overlay {
   font: inherit;
-  padding: 1rem;
+  padding: 1rem 1rem 50vh;
   width: 100%;
   height: 100%;
   white-space: pre-wrap;
