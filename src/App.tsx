@@ -14,8 +14,7 @@ function App() {
 
   const syncScroll = () => {
     if (textareaRef.current && overlayRef.current) {
-      overlayRef.current.scrollTop = textareaRef.current.scrollTop
-      overlayRef.current.scrollLeft = textareaRef.current.scrollLeft
+      overlayRef.current.style.top = `-${textareaRef.current.scrollTop}px`
     }
   }
 
