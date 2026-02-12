@@ -93,6 +93,34 @@ function App() {
       })
     }
 
+    if (e.altKey && e.key === 'ƒ') {
+      e.preventDefault()
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      let pos = textarea.selectionStart
+      while (pos < text.length && /\s/.test(text[pos])) pos++
+      while (pos < text.length && !/\s/.test(text[pos])) pos++
+
+      requestAnimationFrame(() => {
+        textarea.selectionStart = textarea.selectionEnd = pos
+      })
+    }
+
+    if (e.altKey && e.key === '∫') {
+      e.preventDefault()
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      let pos = textarea.selectionStart
+      while (pos > 0 && /\s/.test(text[pos - 1])) pos--
+      while (pos > 0 && !/\s/.test(text[pos - 1])) pos--
+
+      requestAnimationFrame(() => {
+        textarea.selectionStart = textarea.selectionEnd = pos
+      })
+    }
+
     if (e.ctrlKey && e.shiftKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
       e.preventDefault()
       const textarea = textareaRef.current
