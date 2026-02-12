@@ -23,7 +23,7 @@ function App() {
   }, [text])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === '`') {
+    if (e.key === '`' || (e.key === 't' && e.ctrlKey)) {
       e.preventDefault()
 
       if (!holdingBacktick) {
@@ -133,7 +133,7 @@ function App() {
   }
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
-    if (e.key === '`') {
+    if (e.key === '`' || (e.key === 't' && e.ctrlKey)) {
       setHoldingBacktick(false)
     }
   }
@@ -149,8 +149,16 @@ function App() {
         style={{ visibility: showOverlay ? 'visible' : 'hidden' }}
       >
         {lines.map((line, i) => (
-          <span key={i} className={i === lines.length - 1 ? 'line last-line' : 'line'}>
-            {line}
+          <span key={i}>
+            {line.split(/( +)/).map((segment, j) =>
+              segment.match(/^ +$/) ? (
+                segment
+              ) : (
+                <span key={j} className="line">
+                  {segment}
+                </span>
+              )
+            )}
             {i < lines.length - 1 && '\n'}
           </span>
         ))}
