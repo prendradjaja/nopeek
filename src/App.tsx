@@ -2,10 +2,13 @@ import { useState, useRef, useEffect } from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 
 const DOUBLE_TAP_MS = 300
+const OVERLAY_VISIBLE_INITIAL_VALUE: boolean = import.meta.env.VITE_NOTEPAD !== 'true';
 
 function App() {
   const [text, setText] = useLocalStorage('editor-text', '')
-  const [overlayVisible, setOverlayVisible] = useState(true)
+  const [overlayVisible, setOverlayVisible] = useState(
+    OVERLAY_VISIBLE_INITIAL_VALUE
+  )
   const [holdingBacktick, setHoldingBacktick] = useState(false)
   const lastBacktickTime = useRef(0)
 
