@@ -174,35 +174,35 @@ function App() {
       const textarea = textareaRef.current
       if (!textarea) return
 
-      const pos = textarea.selectionStart
-      const lineStart = text.lastIndexOf('\n', pos - 1) + 1
-      const lineEnd = text.indexOf('\n', pos)
-      const currentLineEnd = lineEnd === -1 ? text.length : lineEnd
+      // Expand selection to full line boundaries
+      const selStart = textarea.selectionStart
+      const selEnd = textarea.selectionEnd
+      const blockStart = text.lastIndexOf('\n', selStart - 1) + 1
+      const blockEndRaw = text.indexOf('\n', selEnd)
+      const blockEnd = blockEndRaw === -1 ? text.length : blockEndRaw
+      const block = text.slice(blockStart, blockEnd)
 
-      if (e.key === 'ArrowUp' && lineStart > 0) {
-        const prevLineStart = text.lastIndexOf('\n', lineStart - 2) + 1
-        const prevLine = text.slice(prevLineStart, lineStart - 1)
-        const currentLine = text.slice(lineStart, currentLineEnd)
-        const newText = text.slice(0, prevLineStart) + currentLine + '\n' + prevLine + text.slice(currentLineEnd)
-        const newLineStart = prevLineStart
+      if (e.key === 'ArrowUp' && blockStart > 0) {
+        const prevLineStart = text.lastIndexOf('\n', blockStart - 2) + 1
+        const prevLine = text.slice(prevLineStart, blockStart - 1)
+        const newText = text.slice(0, prevLineStart) + block + '\n' + prevLine + text.slice(blockEnd)
         setText(newText)
         requestAnimationFrame(() => {
-          textarea.selectionStart = newLineStart
-          textarea.selectionEnd = newLineStart + currentLine.length
+          textarea.selectionStart = prevLineStart
+          textarea.selectionEnd = prevLineStart + block.length
         })
       }
 
-      if (e.key === 'ArrowDown' && currentLineEnd < text.length) {
-        const nextLineEnd = text.indexOf('\n', currentLineEnd + 1)
+      if (e.key === 'ArrowDown' && blockEnd < text.length) {
+        const nextLineEnd = text.indexOf('\n', blockEnd + 1)
         const actualNextEnd = nextLineEnd === -1 ? text.length : nextLineEnd
-        const nextLine = text.slice(currentLineEnd + 1, actualNextEnd)
-        const currentLine = text.slice(lineStart, currentLineEnd)
-        const newText = text.slice(0, lineStart) + nextLine + '\n' + currentLine + text.slice(actualNextEnd)
-        const newLineStart = lineStart + nextLine.length + 1
+        const nextLine = text.slice(blockEnd + 1, actualNextEnd)
+        const newText = text.slice(0, blockStart) + nextLine + '\n' + block + text.slice(actualNextEnd)
+        const newBlockStart = blockStart + nextLine.length + 1
         setText(newText)
         requestAnimationFrame(() => {
-          textarea.selectionStart = newLineStart
-          textarea.selectionEnd = newLineStart + currentLine.length
+          textarea.selectionStart = newBlockStart
+          textarea.selectionEnd = newBlockStart + block.length
         })
       }
     }
