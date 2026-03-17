@@ -148,6 +148,27 @@ function App() {
       })
     }
 
+    if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+      e.preventDefault()
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      const now = new Date()
+      const hours = now.getHours()
+      const minutes = now.getMinutes().toString().padStart(2, '0')
+      const ampm = hours >= 12 ? 'pm' : 'am'
+      const hours12 = hours % 12 || 12
+      const stamp = `${hours12}:${minutes}${ampm}`
+
+      const pos = textarea.selectionStart
+      const newText = text.slice(0, pos) + stamp + text.slice(textarea.selectionEnd)
+      setText(newText)
+
+      requestAnimationFrame(() => {
+        textarea.selectionStart = textarea.selectionEnd = pos + stamp.length
+      })
+    }
+
     if (e.ctrlKey && e.shiftKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
       e.preventDefault()
       const textarea = textareaRef.current
